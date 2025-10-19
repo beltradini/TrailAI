@@ -41,7 +41,7 @@ actor FoundationModelService {
             let mins: Int
             if let t = fallbackTrail { mins = max(5, Int(t.estimatedTime / 60)) } else { mins = 45 }
             let end = nearbyPlaces.first.map { "and you'll end near \($0)" } ?? ""
-            let fallback = "It's \(weatherSummary.lowercased()). I recommend \(base) (-\(mins) minutes\(end)."
+            let fallback = "It's \(weatherSummary.joined(separator: ", ").lowercased()). I recommend \(base) (-\(mins) minutes\(end)."
             return Recommendation(message: fallback, suggestedTrail: fallbackTrail)
         }
         
@@ -89,7 +89,7 @@ actor FoundationModelService {
             let mins = payload.estimatedDurationMinutes ?? (selectedTrail != nil ? max(5, Int(selectedTrail!.estimatedTime / 60)) : 45)
             let end = (payload.endNear ?? nearbyPlaces.first).map {
                 " and you'll end near \($0)" } ?? ""
-            messageFinal = "It's \(weatherSummary.lowercased()). I recommend \(base) (- \(mins) minutes\(end)."
+            messageFinal = "It's \(weatherSummary.joined(separator: ", ").lowercased()). I recommend \(base) (- \(mins) minutes\(end)."
         }
         
         return Recommendation(message: messageFinal, suggestedTrail: selectedTrail)

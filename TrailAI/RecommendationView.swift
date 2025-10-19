@@ -21,7 +21,7 @@ struct RecommendationView: View {
     ]
 
     private let samplePreferences = ["hiking", "cafes", "short walks"]
-    private let sampleWeather = "Sunny with a light breeze"
+    private let sampleWeather = ["Sunny with a light breeze"]
     private let sampleNearby = ["Blue Bottle Coffee", "City Park Cafe"]
 
     var body: some View {
@@ -84,12 +84,6 @@ struct RecommendationView: View {
                 Spacer()
             }
             .padding(.top, 40)
-        }
-    }
-    
-    private func onPreferenceChange<T: Equatable>(_ binding: Binding<T>) -> (T) -> () {
-        .init { newValue in
-            
         }
     }
 
