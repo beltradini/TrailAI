@@ -7,6 +7,7 @@
 
 import Foundation
 import FoundationModels
+import CoreML
 internal import _LocationEssentials
 
 @Generable
@@ -21,6 +22,14 @@ actor FoundationModelService {
     static let shared = FoundationModelService()
     private init() {}
     
+    private lazy var trailModel: MLModel? = {
+        guard let modelURL = Bundle.main.url(forResource: "TrailRecommender", withExtension: "mlmodelc") else {
+            print("Core ML model not found.")
+            return nil
+        }
+        return try? MLModel(contentsOf: modelURL)
+    }()
+
     func availability() -> SystemLanguageModel.Availability {
         SystemLanguageModel.default.availability
     }
@@ -31,7 +40,29 @@ actor FoundationModelService {
         weatherSummary: [String],
         nearbyPlaces: [String] = []
     ) async throws -> Recommendation {
-        // Fallback if the on-device model isn't available
+        // Check if Core ML model is available
+        if let model = trailModel {
+            do {
+                let input = TrailRecommenderInput(
+                    trails: trails.map { $0.name },
+                    preferences: preferences,
+                    weather: weatherSummary.joined(separator: ", "),
+                    nearbyPlaces: nearbyPlaces
+                )
+                let prediction = try model.prediction(from: input)
+                if let output = prediction as? TrailRecommenderOutput {
+                    let recommendedTrail = trails.first { $0.name == output.suggestedTrail }
+                    return Recommendation(
+                        message: output.message,
+                        suggestedTrail: recommendedTrail
+                    )
+                }
+            } catch {
+                print("Core ML prediction error: \(error)")
+            }
+        }
+
+        // Fallback logic if Core ML model is unavailable
         switch SystemLanguageModel.default.availability {
         case .available:
             break
@@ -41,7 +72,7 @@ actor FoundationModelService {
             let mins: Int
             if let t = fallbackTrail { mins = max(5, Int(t.estimatedTime / 60)) } else { mins = 45 }
             let end = nearbyPlaces.first.map { "and you'll end near \($0)" } ?? ""
-            let fallback = "It's \(weatherSummary.joined(separator: ", ").lowercased()). I recommend \(base) (-\(mins) minutes\(end)."
+            let fallback = "It's \(weatherSummary.joined(separator: ", ").lowercased()). I recommend \(base) (~\(mins) minutes\(end)."
             return Recommendation(message: fallback, suggestedTrail: fallbackTrail)
         }
         
