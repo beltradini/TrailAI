@@ -1,10 +1,10 @@
-# TrailAI 🥾
+# TrailAI
 
 > AI-powered outdoor trail recommendations using Apple's on-device Foundation Models
 
 TrailAI is a SwiftUI application that leverages Apple's FoundationModels framework to generate intelligent, context-aware trail recommendations. By combining real-time weather data, user preferences, and nearby points of interest, TrailAI delivers personalized suggestions—all processed locally on your device for maximum privacy.
 
-## ✨ Features
+## Features
 
 - **On-Device AI**: Uses Apple's SystemLanguageModel for private, fast recommendations
 - **Context-Aware Suggestions**: Considers weather conditions, trail difficulty, and estimated duration
@@ -12,7 +12,7 @@ TrailAI is a SwiftUI application that leverages Apple's FoundationModels framewo
 - **Beautiful UI**: Modern SwiftUI interface with glass morphism effects
 - **Privacy First**: All AI processing happens on-device—no data leaves your device
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -36,7 +36,7 @@ open TrailAI.xcodeproj
 
 3. Build and run the project (⌘R)
 
-## 🏗️ Architecture
+## Architecture
 
 TrailAI is built with a clean, modular architecture:
 
@@ -56,7 +56,7 @@ TrailAI/
 - **TrailRecommendationPayload**: Generable struct that defines the AI response schema
 - **RecommendationView**: SwiftUI view with glass morphism effects and interactive UI
 
-## 🧠 How It Works
+## How It Works
 
 1. User taps "Generate" to request a recommendation
 2. The app collects context: available trails, weather, preferences, and nearby places
@@ -73,7 +73,7 @@ let rec = try await FoundationModelService.shared.generateRecommendation(
 )
 ```
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - [ ] Integration with real MapKit trail data
 - [ ] Live WeatherKit integration for accurate forecasts
@@ -83,17 +83,17 @@ let rec = try await FoundationModelService.shared.generateRecommendation(
 - [ ] Share recommendations with friends
 - [ ] Offline trail database
 
-## 🛠️ Built With
+## Built With
 
 - [SwiftUI](https://developer.apple.com/xcode/swiftui/) - UI framework
 - [FoundationModels](https://developer.apple.com/documentation/foundationmodels) - Apple's on-device AI framework
 - [CoreLocation](https://developer.apple.com/documentation/corelocation) - Location services
 
-## 📱 Screenshots
+## Screenshots
 
 _Coming soon_
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -103,15 +103,15 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👤 Author
+## Author
 
 **Alejandro Beltrán**
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with Apple's FoundationModels framework introduced at WWDC 2025
 - Inspired by the potential of on-device AI for privacy-preserving applications
